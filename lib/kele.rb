@@ -21,11 +21,24 @@ class Kele
     @user_data
   end
 
+  def get_mentor_availability(mentor_id)
+    response = self.class.get(base_api_endpoint("mentors/#{mentor_id}/student_availability"), headers: { "authorization" => @auth_token }).to_a
+    available = []
+    response.each do |timeslot|
+      if timeslot["booked"] == nil
+        available.push(timeslot)
+      end
+    end
+    available
+  end
+  
 	private
 
   def base_api_endpoint(end_point)
     "https://www.bloc.io/api/v1/#{end_point}"
   end
+
+  
 
 
 end
