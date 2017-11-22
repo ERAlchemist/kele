@@ -28,6 +28,16 @@ class Kele
     available
   end
 
+  def get_messages(page)
+    response = self.class.get(base_api_endpoint("message_threads?page=#{page}"), headers: { "authorization" => @auth_token })
+    @get_messages = JSON.parse(response.body)
+  end
+
+  def create_message(user_id, recipient_id, token=nil, subject, message)
+    response = self.class.post(base_api_endpoint("messages"), body: { "user_id": user_id, "recipient_id": recipient_id, "token": token, "subject": subject, "stripped-text": message }, headers: { "authorization" => @auth_token })
+    puts response
+  end
+
   
   
 	private
